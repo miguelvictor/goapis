@@ -14,6 +14,16 @@ func handlePdfToText(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// send cors headers
+	if r.Method == "OPTIONS" {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+		w.Header().Set("Access-Control-Max-Age", "86400")
+		w.WriteHeader(http.StatusNoContent)
+		return
+	}
+
 	// check auth token
 	query := r.URL.Query()
 	token := query.Get("token")
