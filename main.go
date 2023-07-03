@@ -8,11 +8,6 @@ import (
 )
 
 func handlePdfToText(w http.ResponseWriter, r *http.Request) {
-	// add cors headers
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
-	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
-
 	// manual 404 setting
 	if r.URL.Path != "/api/pdftotext" {
 		w.WriteHeader(http.StatusNotFound)
@@ -24,12 +19,6 @@ func handlePdfToText(w http.ResponseWriter, r *http.Request) {
 	token := query.Get("token")
 	if token != os.Getenv("SECRET") {
 		w.WriteHeader(http.StatusUnauthorized)
-		return
-	}
-
-	// don't send anything if it's an OPTIONS request
-	if r.Method == "OPTIONS" {
-		w.WriteHeader(http.StatusNoContent)
 		return
 	}
 
